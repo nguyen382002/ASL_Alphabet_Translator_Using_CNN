@@ -34,6 +34,7 @@ interval = 1.2
 while True:
 
     success, img = cap.read()
+    img2 = img.copy()
     hands, img = detector.findHands(img)
     display_text = cv2.imread("blank.png")
     description_text = cv2.imread("blank2.png")
@@ -89,14 +90,17 @@ while True:
                 else:
                     text += "_"
                                 
-        cv2.putText(img, class_name[np.argmax(predict[0])], (x, y -26), cv2.FONT_HERSHEY_COMPLEX, 1.7, (0, 255, 0), 2)
+        cv2.rectangle(img2, (x- 20, y - 20),
+                                  (x + w + 20, y + h + 20),
+                                  (255, 0, 255), 2)
+        cv2.putText(img2, class_name[np.argmax(predict[0])], (x, y -26), cv2.FONT_HERSHEY_COMPLEX, 1.7, (0, 255, 0), 2)
         
 
 
     cv2.putText(display_text, text, (40, 40), cv2.FONT_HERSHEY_COMPLEX, 1.2, (0, 0, 0), 3)
     cv2.putText(description_text, description, (20, 20), cv2.FONT_HERSHEY_COMPLEX, 0.8, (0, 0, 0), 1)
 
-    cv2.imshow("Image", img)
+    cv2.imshow("Image", img2)
     cv2.imshow("text", display_text)
     cv2.imshow("description",description_text)
 
